@@ -1,0 +1,38 @@
+{
+  "players": ["Cece", "Enrico", "Carlo", "King", "Andre", "Michele"],
+  "results": [
+    {
+      "date": "2025-01-14",
+      "scores": {
+        "Cece": 6,
+        "Enrico": 3,
+        "Carlo": 5,
+        "King": 5,
+        "Andre": 5,
+        "Michele": 7
+      }
+    },
+    {
+      "date": "2025-01-15",
+      "scores": {
+        "Cece": 3,
+        "Enrico": 10,
+        "Carlo": 5,
+        "King": 3,
+        "Andre": 3,
+        "Michele": 9
+      }
+    },
+    {
+      "date": "2025-01-16",
+      "scores": {
+        "Cece": 3,
+        "Enrico": 4,
+        "Carlo": 3,
+        "King": 5,
+        "Andre": null,
+        "Michele": 3
+      }
+    }
+  ]
+}

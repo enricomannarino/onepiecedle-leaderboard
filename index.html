@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏴‍☠️ OnePiecedle Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .pirate-font { font-family: 'Pirata One', cursive; }
+        .glow { text-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); }}
+        .float { animation: float 3s ease-in-out infinite; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div id="app" class="p-4 md:p-8">
+        <!-- Loading -->
+        <div id="loading" class="text-center py-20">
+            <div class="text-6xl float">🏴‍☠️</div>
+            <p class="text-yellow-400 mt-4">Caricamento ciurma...</p>
+        </div>
+    </div>
+
+    <script>
+        // Configurazione
+        const CONFIG = {
+            dataFile: 'data.json',
+            maxAttempts: 10,
+            players: ["Cece", "Enrico", "Carlo", "King", "Andre", "Michele"]
+        };
+
+        // State
+        let data = null;
+        let currentView = 'leaderboard';
+
+        // Fetch data
+        async function loadData() {
+            try {
+                const response = await fetch(CONFIG.dataFile);
+                data = await response.json();
+                render();
+            } catch (error) {
+                document.getElementById('app').innerHTML = `
+                    <div class="text-center py-20">
+                        <div class="text-6xl">❌</div>
+                        <p class="text-red-400 mt-4">Errore caricamento dati</p>
+                        <p class="text-slate-500 text-sm mt-2">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Calculate stats
+        function calculateStats() {
+            return data.players.map(player => {
+                const scores = data.results
+                    .map(r => r.scores[player])
+                    .filter(s => s !== null && s !== undefined);
+                
+                const avg = scores.length > 0 
+                    ? (scores.reduce((a, b) => a + b, 0) / scores.length)
+                    : null;
+                
+                return {
+                    player,
+                    avg,
+                    avgDisplay: avg !== null ? avg.toFixed(2) : 'N/A',
+                    gamesPlayed: scores.length,
+                    totalGames: data.results.length,
+                    bestScore: scores.length > 0 ? Math.min(...scores) : null,
+                    perfectGames: scores.filter(s => s === 1).length,
+                    streak: calculateStreak(player)
+                };
+            }).sort((a, b) => {
+                if (a.avg === null) return 1;
+                if (b.avg === null) return -1;
+                return a.avg - b.avg;
+            });
+        }
+
+        // Calculate current streak
+        function calculateStreak(player) {
+            let streak = 0;
+            const reversed = [...data.results].reverse();
+            for (const day of reversed) {
+                if (day.scores[player] !== null && day.scores[player] !== undefined) {
+                    streak++;
+                } else break;
+            }
+            return streak;
+        }
+
+        // Get score color class
+        function getScoreColor(score) {
+            if (score === null || score === undefined) return 'bg-gray-700 text-gray-400';
+            if (score <= 2) return 'bg-green-600 text-white';
+            if (score <= 4) return 'bg-yellow-500 text-black';
+            if (score <= 6) return 'bg-orange-500 text-white';
+            return 'bg-red-600 text-white';
+        }
+
+        // Get average color class
+        function getAvgColor(avg) {
+            if (avg === null) return 'bg-gray-700 text-gray-400';
+            if (avg <= 3) return 'bg-green-600 text-white';
+            if (avg <= 5) return 'bg-yellow-500 text-black';
+            return 'bg-red-600 text-white';
+        }
+
+        // Render
+        function render() {
+            const stats = calculateStats();
+            const lastUpdate = data.results.length > 0 
+                ? data.results[data.results.length - 1].date 
+                : 'N/A';
+
+            document.getElementById('app').innerHTML = `
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <h1 class="pirate-font text-4xl md:text-5xl text-yellow-400 glow mb-2">
+                        🏴‍☠️ OnePiecedle Leaderboard
+                    </h1>
+                    <p class="text-blue-300">Chi sarà il Re dei Pirati?</p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-center gap-3 mb-8">
+                    <button onclick="switchView('leaderboard')" 
+                        class="px-5 py-2 rounded-lg font-semibold transition-all ${currentView === 'leaderboard' ? 'bg-yellow-500 text-black' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                        🏆 Classifica
+                    </button>
+                    <button onclick="switchView('history')" 
+                        class="px-5 py-2 rounded-lg font-semibold transition-all ${currentView === 'history' ? 'bg-yellow-500 text-black' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                        📜 Storico
+                    </button>
+                    <button onclick="switchView('stats')" 
+                        class="px-5 py-2 rounded-lg font-semibold transition-all ${currentView === 'stats' ? 'bg-yellow-500 text-black' : 'bg-slate-700 text-white hover:bg-slate-600'}">
+                        📊 Stats
+                    </button>
+                </div>
+
+                ${currentView === 'leaderboard' ? renderLeaderboard(stats) : ''}
+                ${currentView === 'history' ? renderHistory() : ''}
+                ${currentView === 'stats' ? renderStats(stats) : ''}
+
+                <!-- Footer -->
+                <div class="text-center mt-8 text-slate-500 text-sm">
+                    <p>Ultimo aggiornamento: ${lastUpdate}</p>
+                    <p class="mt-1">Cap: ${CONFIG.maxAttempts} tentativi max • NA = non giocato</p>
+                    <p class="mt-2">
+                        <a href="https://onepiecedle.net/" target="_blank" class="text-blue-400 hover:text-blue-300">
+                            🎮 Gioca su OnePiecedle.net
+                        </a>
+                    </p>
+                </div>
+            `;
+        }
+
+        // Render Leaderboard
+        function renderLeaderboard(stats) {
+            const medals = ['🥇', '🥈', '🥉'];
+            const emojis = ['👑', '🏴‍☠️', '⚔️', '🗡️', '💀', '🦴'];
+
+            return `
+                <div class="max-w-lg mx-auto">
+                    <div class="bg-slate-800/80 rounded-xl overflow-hidden shadow-2xl border border-slate-700">
+                        <div class="bg-gradient-to-r from-yellow-600 to-orange-600 p-4">
+                            <h2 class="text-white font-bold text-center text-lg">📊 Media Tentativi</h2>
+                        </div>
+                        <div class="divide-y divide-slate-700">
+                            ${stats.map((s, idx) => `
+                                <div class="flex items-center p-4 hover:bg-slate-700/50 transition-all">
+                                    <div class="w-12 text-center">
+                                        ${idx < 3 
+                                            ? `<span class="text-3xl">${medals[idx]}</span>`
+                                            : `<span class="text-slate-400 font-bold text-xl">${idx + 1}</span>`
+                                        }
+                                    </div>
+                                    <div class="flex-1 ml-3">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-white font-semibold text-lg">${s.player}</span>
+                                            <span class="text-xl">${emojis[idx] || '⚓'}</span>
+                                        </div>
+                                        <div class="text-xs text-slate-400 mt-1">
+                                            ${s.gamesPlayed}/${s.totalGames} partite • 
+                                            Best: ${s.bestScore || '-'} • 
+                                            🔥 ${s.streak}
+                                        </div>
+                                    </div>
+                                    <div class="px-4 py-2 rounded-lg font-bold text-xl ${getAvgColor(s.avg)}">
+                                        ${s.avgDisplay}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-slate-800/60 rounded-lg">
+                        <p class="text-slate-400 text-sm text-center">
+                            🟢 ≤3 Eccellente • 🟡 4-5 Buono • 🟠 6-7 Nella media • 🔴 8+ Da migliorare
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render History
+        function renderHistory() {
+            const reversed = [...data.results].reverse();
+            
+            return `
+                <div class="max-w-4xl mx-auto overflow-x-auto">
+                    <div class="bg-slate-800/80 rounded-xl shadow-2xl border border-slate-700 min-w-max">
+                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
+                            <h2 class="text-white font-bold text-center text-lg">📅 Risultati Giornalieri</h2>
+                        </div>
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-slate-700">
+                                    <th class="p-3 text-left text-slate-300 font-semibold">Data</th>
+                                    ${data.players.map(p => `
+                                        <th class="p-3 text-center text-slate-300 font-semibold">${p}</th>
+                                    `).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${reversed.map((day, idx) => `
+                                    <tr class="${idx % 2 === 0 ? 'bg-slate-800/50' : 'bg-slate-800/30'}">
+                                        <td class="p-3 text-slate-300 font-mono">${day.date}</td>
+                                        ${data.players.map(p => `
+                                            <td class="p-3 text-center">
+                                                <span class="inline-block w-10 h-10 leading-10 rounded-lg font-bold ${getScoreColor(day.scores[p])}">
+                                                    ${day.scores[p] ?? 'NA'}
+                                                </span>
+                                            </td>
+                                        `).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Stats
+        function renderStats(stats) {
+            const totalGames = data.results.length;
+            const allScores = data.results.flatMap(r => 
+                Object.values(r.scores).filter(s => s !== null && s !== undefined)
+            );
+            const globalAvg = allScores.length > 0 
+                ? (allScores.reduce((a, b) => a + b, 0) / allScores.length).toFixed(2)
+                : 'N/A';
+
+            return `
+                <div class="max-w-2xl mx-auto grid gap-4 md:grid-cols-2">
+                    <!-- Global Stats -->
+                    <div class="bg-slate-800/80 rounded-xl p-6 border border-slate-700">
+                        <h3 class="text-yellow-400 font-bold mb-4">🌍 Statistiche Globali</h3>
+                        <div class="space-y-3 text-slate-300">
+                            <p>📅 Giorni giocati: <span class="text-white font-bold">${totalGames}</span></p>
+                            <p>📊 Media globale: <span class="text-white font-bold">${globalAvg}</span></p>
+                            <p>🎯 Totale tentativi: <span class="text-white font-bold">${allScores.reduce((a, b) => a + b, 0)}</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Records -->
+                    <div class="bg-slate-800/80 rounded-xl p-6 border border-slate-700">
+                        <h3 class="text-yellow-400 font-bold mb-4">🏆 Record</h3>
+                        <div class="space-y-3 text-slate-300">
+                            <p>👑 Miglior media: <span class="text-green-400 font-bold">${stats[0]?.player} (${stats[0]?.avgDisplay})</span></p>
+                            <p>🎯 Più perfetti (1): <span class="text-white font-bold">${
+                                stats.reduce((best, s) => s.perfectGames > best.perfectGames ? s : best, stats[0]).player
+                            }</span></p>
+                            <p>🔥 Streak più lunga: <span class="text-orange-400 font-bold">${
+                                stats.reduce((best, s) => s.streak > best.streak ? s : best, stats[0]).player
+                            } (${Math.max(...stats.map(s => s.streak))})</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Player Details -->
+                    ${stats.map(s => `
+                        <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/50">
+                            <h4 class="text-white font-semibold mb-2">${s.player}</h4>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <span class="text-slate-400">Media:</span>
+                                <span class="text-white">${s.avgDisplay}</span>
+                                <span class="text-slate-400">Partite:</span>
+                                <span class="text-white">${s.gamesPlayed}/${s.totalGames}</span>
+                                <span class="text-slate-400">Best:</span>
+                                <span class="text-green-400">${s.bestScore || '-'}</span>
+                                <span class="text-slate-400">Perfetti:</span>
+                                <span class="text-yellow-400">${s.perfectGames}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Switch view
+        function switchView(view) {
+            currentView = view;
+            render();
+        }
+
+        // Init
+        loadData();
+    </script>
+</body>
+</html>
