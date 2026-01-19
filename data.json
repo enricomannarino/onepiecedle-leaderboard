@@ -33,7 +33,19 @@
         "Andre": 2,
         "Michele": 3
       }
+    },
+    {
+      "date": "2025-01-19",
+      "scores": {
+        "Cece": 4,
+        "Enrico": 6,
+        "Carlo": null,
+        "King": 6,
+        "Andre": 4,
+        "Michele": 4
+      }
     }
   ]
 
 }
+
