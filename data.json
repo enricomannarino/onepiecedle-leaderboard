@@ -44,9 +44,21 @@
         "Andre": 4,
         "Michele": 4
       }
+    },
+    {
+      "date": "2025-01-20",
+      "scores": {
+        "Cece": 2,
+        "Enrico": 2,
+        "Carlo": 2,
+        "King": 2,
+        "Andre": 2,
+        "Michele": null
+      }
     }
   ]
 
 }
+
 
 
