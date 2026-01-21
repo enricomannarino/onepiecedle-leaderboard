@@ -61,7 +61,7 @@
       "scores": {
         "Cece": 2,
         "Enrico": 3,
-        "Carlo": null,
+        "Carlo": 2,
         "King": 5,
         "Andre": 3,
         "Michele": 5
@@ -70,6 +70,7 @@
   ]
 
 }
+
 
 
 
