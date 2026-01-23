@@ -77,10 +77,22 @@
         "Andre": 7,
         "Michele": 5
       }
+    },
+    {
+      "date": "2025-01-23",
+      "scores": {
+        "Cece": 2,
+        "Enrico": 2,
+        "Carlo": 7,
+        "King": 2,
+        "Andre": 2,
+        "Michele": 3
+      }
     }
   ]
 
 }
+
 
 
 
