@@ -16,7 +16,6 @@
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
     <div id="app" class="p-4 md:p-8">
-        <!-- Loading -->
         <div id="loading" class="text-center py-20">
             <div class="text-6xl float">🏴‍☠️</div>
             <p class="text-yellow-400 mt-4">Caricamento ciurma...</p>
@@ -24,18 +23,15 @@
     </div>
 
     <script>
-        // Configurazione
         const CONFIG = {
             dataFile: 'data.json',
             maxAttempts: 10,
-            players: ["Cece", "Enrico", "Carlo", "King", "Andre", "Michele"]
+            players: ["Cece", "Enrico", "Carlo", "King", "Andre", "Michele", "Paolin"]
         };
 
-        // State
         let data = null;
         let currentView = 'leaderboard';
 
-        // Fetch data
         async function loadData() {
             try {
                 const response = await fetch(`${CONFIG.dataFile}?v=${Date.now()}`);
@@ -52,7 +48,6 @@
             }
         }
 
-        // Calculate stats
         function calculateStats() {
             return data.players.map(player => {
                 const scores = data.results
@@ -80,7 +75,6 @@
             });
         }
 
-        // Calculate current streak
         function calculateStreak(player) {
             let streak = 0;
             const reversed = [...data.results].reverse();
@@ -92,7 +86,6 @@
             return streak;
         }
 
-        // Get score color class
         function getScoreColor(score) {
             if (score === null || score === undefined) return 'bg-gray-700 text-gray-400';
             if (score <= 2) return 'bg-green-600 text-white';
@@ -101,7 +94,6 @@
             return 'bg-red-600 text-white';
         }
 
-        // Get average color class
         function getAvgColor(avg) {
             if (avg === null) return 'bg-gray-700 text-gray-400';
             if (avg <= 3) return 'bg-green-600 text-white';
@@ -109,7 +101,6 @@
             return 'bg-red-600 text-white';
         }
 
-        // Render
         function render() {
             const stats = calculateStats();
             const lastUpdate = data.results.length > 0 
@@ -117,7 +108,6 @@
                 : 'N/A';
 
             document.getElementById('app').innerHTML = `
-                <!-- Header -->
                 <div class="text-center mb-8">
                     <h1 class="pirate-font text-4xl md:text-5xl text-yellow-400 glow mb-2">
                         🏴‍☠️ OnePiecedle Leaderboard
@@ -125,8 +115,7 @@
                     <p class="text-blue-300">Chi sarà il Re dei Pirati?</p>
                 </div>
 
-                <!-- Navigation -->
-                <div class="flex justify-center gap-3 mb-8">
+                <div class="flex justify-center gap-3 mb-8 flex-wrap">
                     <button onclick="switchView('leaderboard')" 
                         class="px-5 py-2 rounded-lg font-semibold transition-all ${currentView === 'leaderboard' ? 'bg-yellow-500 text-black' : 'bg-slate-700 text-white hover:bg-slate-600'}">
                         🏆 Classifica
@@ -145,7 +134,6 @@
                 ${currentView === 'history' ? renderHistory() : ''}
                 ${currentView === 'stats' ? renderStats(stats) : ''}
 
-                <!-- Footer -->
                 <div class="text-center mt-8 text-slate-500 text-sm">
                     <p>Ultimo aggiornamento: ${lastUpdate}</p>
                     <p class="mt-1">Cap: ${CONFIG.maxAttempts} tentativi max • NA = non giocato</p>
@@ -158,10 +146,9 @@
             `;
         }
 
-        // Render Leaderboard
         function renderLeaderboard(stats) {
             const medals = ['🥇', '🥈', '🥉'];
-            const emojis = ['👑', '🏴‍☠️', '⚔️', '🗡️', '💀', '🦴'];
+            const emojis = ['👑', '🏴‍☠️', '⚔️', '🗡️', '💀', '🦴', '⚓'];
 
             return `
                 <div class="max-w-lg mx-auto">
@@ -200,7 +187,6 @@
             `;
         }
 
-        // Render History
         function renderHistory() {
             const reversed = [...data.results].reverse();
             
@@ -239,7 +225,6 @@
             `;
         }
 
-        // Render Stats
         function renderStats(stats) {
             const totalGames = data.results.length;
             const allScores = data.results.flatMap(r => 
@@ -251,7 +236,6 @@
 
             return `
                 <div class="max-w-2xl mx-auto grid gap-4 md:grid-cols-2">
-                    <!-- Global Stats -->
                     <div class="bg-slate-800/80 rounded-xl p-6 border border-slate-700">
                         <h3 class="text-yellow-400 font-bold mb-4">🌍 Statistiche Globali</h3>
                         <div class="space-y-3 text-slate-300">
@@ -261,7 +245,6 @@
                         </div>
                     </div>
 
-                    <!-- Records -->
                     <div class="bg-slate-800/80 rounded-xl p-6 border border-slate-700">
                         <h3 class="text-yellow-400 font-bold mb-4">🏆 Record</h3>
                         <div class="space-y-3 text-slate-300">
@@ -275,7 +258,6 @@
                         </div>
                     </div>
 
-                    <!-- Player Details -->
                     ${stats.map(s => `
                         <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/50">
                             <h4 class="text-white font-semibold mb-2">${s.player}</h4>
@@ -295,16 +277,12 @@
             `;
         }
 
-        // Switch view
         function switchView(view) {
             currentView = view;
             render();
         }
 
-        // Init
         loadData();
     </script>
 </body>
-
 </html>
-
