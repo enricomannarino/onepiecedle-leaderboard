@@ -9,7 +9,8 @@
         "Carlo": 5,
         "King": 5,
         "Andre": 5,
-        "Michele": 7
+        "Michele": 7,
+        "Paolin": null
       }
     },
     {
@@ -20,7 +21,8 @@
         "Carlo": 5,
         "King": 3,
         "Andre": 3,
-        "Michele": 9
+        "Michele": 9,
+        "Paolin": null
       }
     },
     {
@@ -31,7 +33,8 @@
         "Carlo": 3,
         "King": 5,
         "Andre": 2,
-        "Michele": 3
+        "Michele": 3,
+        "Paolin": null
       }
     },
     {
@@ -42,7 +45,8 @@
         "Carlo": 3,
         "King": 6,
         "Andre": 4,
-        "Michele": 4
+        "Michele": 4,
+        "Paolin": null
       }
     },
     {
@@ -53,7 +57,8 @@
         "Carlo": 2,
         "King": 2,
         "Andre": 2,
-        "Michele": null
+        "Michele": null,
+        "Paolin": null
       }
     },
     {
@@ -64,7 +69,8 @@
         "Carlo": 2,
         "King": 5,
         "Andre": 3,
-        "Michele": 5
+        "Michele": 5,
+        "Paolin": null
       }
     },
     {
@@ -75,7 +81,8 @@
         "Carlo": 4,
         "King": 5,
         "Andre": 7,
-        "Michele": 5
+        "Michele": 5,
+        "Paolin": null
       }
     },
     {
@@ -86,7 +93,8 @@
         "Carlo": 7,
         "King": 2,
         "Andre": 2,
-        "Michele": 3
+        "Michele": 3,
+        "Paolin": null
       }
     },
     {
@@ -97,7 +105,8 @@
         "Carlo": 2,
         "King": 2,
         "Andre": 2,
-        "Michele": 3
+        "Michele": 3,
+        "Paolin": null
       }
     },
     {
@@ -108,12 +117,26 @@
         "Carlo": 3,
         "King": 3,
         "Andre": 3,
-        "Michele": 3
+        "Michele": 3,
+        "Paolin": null
+      }
+    },
+    {
+      "date": "2025-01-28",
+      "scores": {
+        "Cece": 5,
+        "Enrico": 3,
+        "Carlo": 4,
+        "King": 7,
+        "Andre": 3,
+        "Michele": 3,
+        "Paolin": 7
       }
     }
   ]
 
 }
+
 
 
 
