@@ -144,10 +144,23 @@
         "Michele": 3,
         "Paolin": 3
       }
+    },
+    {
+      "date": "2025-01-30",
+      "scores": {
+        "Cece": 3,
+        "Enrico": 2,
+        "Carlo": 3,
+        "King": 4,
+        "Andre": null,
+        "Michele": 2,
+        "Paolin": null
+      }
     }
   ]
 
 }
+
 
 
 
