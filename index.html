@@ -13,6 +13,11 @@
         .glow { text-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); }}
         .float { animation: float 3s ease-in-out infinite; }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.8); }
+        }
+        .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
@@ -96,23 +101,23 @@
                 let runningSum = 0;
                 let count = 0;
                 
-                data.results.forEach(day => {
+                data.results.forEach((day) => {
                     const score = day.scores[player];
                     if (score !== null && score !== undefined) {
                         runningSum += score;
                         count++;
+                    }
+                    
+                    if (count > 0) {
                         dailyAverages[player].push({
                             date: day.date,
                             average: runningSum / count
                         });
                     } else {
-                        // Se il player non ha giocato quel giorno, manteniamo la media precedente
-                        if (dailyAverages[player].length > 0) {
-                            dailyAverages[player].push({
-                                date: day.date,
-                                average: dailyAverages[player][dailyAverages[player].length - 1].average
-                            });
-                        }
+                        dailyAverages[player].push({
+                            date: day.date,
+                            average: null
+                        });
                     }
                 });
             });
@@ -179,7 +184,6 @@
                 </div>
             `;
 
-            // Se siamo nella vista stats, inizializziamo il grafico
             if (currentView === 'stats') {
                 setTimeout(() => initChart(), 100);
             }
@@ -260,6 +264,31 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Premio Finale -->
+                    <div class="mt-12 bg-gradient-to-r from-yellow-600 via-orange-600 to-red-600 rounded-xl p-1 pulse-glow">
+                        <div class="bg-slate-900 rounded-lg p-8 text-center">
+                            <h3 class="pirate-font text-3xl text-yellow-400 glow mb-4">
+                                🏆 GRAN PREMIO FINALE 🏆
+                            </h3>
+                            <p class="text-white text-lg mb-6">
+                                Il vincitore finale si aggiudicherà il leggendario tesoro:
+                            </p>
+                            <div class="max-w-md mx-auto">
+                                <img 
+                                    src="one-piece-kinder-gran-sorpresa-pasqua-uovo.jpg" 
+                                    alt="Kinder Gran Sorpresa One Piece"
+                                    class="w-full rounded-lg shadow-2xl border-4 border-yellow-400"
+                                />
+                            </div>
+                            <p class="text-yellow-300 text-xl font-bold mt-6 pirate-font">
+                                🍫 Kinder Gran Sorpresa One Piece Special Edition! 🍫
+                            </p>
+                            <p class="text-slate-400 text-sm mt-2">
+                                Il tesoro più dolce del Grand Line ti aspetta! ⚓
+                            </p>
+                        </div>
+                    </div>
                 </div>
             `;
         }
@@ -288,15 +317,14 @@
             const dailyAverages = calculateDailyAverages();
             const dates = data.results.map(r => r.date);
             
-            // Colori distintivi per ogni player
             const playerColors = {
-                'Cece': '#ef4444',      // Red
-                'Enrico': '#3b82f6',    // Blue
-                'Carlo': '#22c55e',     // Green
-                'King': '#f59e0b',      // Amber
-                'Andre': '#8b5cf6',     // Violet
-                'Michele': '#ec4899',   // Pink
-                'Paolin': '#06b6d4'     // Cyan
+                'Cece': '#ef4444',
+                'Enrico': '#3b82f6',
+                'Carlo': '#22c55e',
+                'King': '#f59e0b',
+                'Andre': '#8b5cf6',
+                'Michele': '#ec4899',
+                'Paolin': '#06b6d4'
             };
 
             const datasets = data.players.map(player => {
@@ -310,13 +338,30 @@
                     tension: 0.4,
                     pointRadius: 4,
                     pointHoverRadius: 6,
-                    fill: false
+                    fill: false,
+                    spanGaps: false
                 };
             });
 
             const ctx = document.getElementById('averageChart');
             if (chart) {
                 chart.destroy();
+            }
+            
+            // Calcola il numero ottimale di etichette in base al numero di date
+            const totalDates = dates.length;
+            let maxTicksLimit;
+            
+            if (totalDates <= 10) {
+                maxTicksLimit = totalDates;
+            } else if (totalDates <= 30) {
+                maxTicksLimit = 10;
+            } else if (totalDates <= 60) {
+                maxTicksLimit = 15;
+            } else if (totalDates <= 90) {
+                maxTicksLimit = 12;
+            } else {
+                maxTicksLimit = 10;
             }
             
             chart = new Chart(ctx, {
@@ -357,6 +402,9 @@
                             displayColors: true,
                             callbacks: {
                                 label: function(context) {
+                                    if (context.parsed.y === null) {
+                                        return context.dataset.label + ': Non ha ancora giocato';
+                                    }
                                     return context.dataset.label + ': ' + context.parsed.y.toFixed(2);
                                 }
                             }
@@ -401,7 +449,10 @@
                                     size: 11
                                 },
                                 maxRotation: 45,
-                                minRotation: 45
+                                minRotation: 45,
+                                maxTicksLimit: maxTicksLimit,
+                                autoSkip: true,
+                                autoSkipPadding: 10
                             },
                             grid: {
                                 color: 'rgba(148, 163, 184, 0.1)'
