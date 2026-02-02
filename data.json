@@ -2,7 +2,7 @@
   "players": ["Cece", "Enrico", "Carlo", "King", "Andre", "Michele", "Paolin"],
   "results": [
     {
-      "date": "2025-01-14",
+      "date": "2026-01-14",
       "scores": {
         "Cece": 6,
         "Enrico": 3,
@@ -14,7 +14,7 @@
       }
     },
     {
-      "date": "2025-01-15",
+      "date": "2026-01-15",
       "scores": {
         "Cece": 3,
         "Enrico": 10,
@@ -26,7 +26,7 @@
       }
     },
     {
-      "date": "2025-01-16",
+      "date": "2026-01-16",
       "scores": {
         "Cece": 3,
         "Enrico": 4,
@@ -38,7 +38,7 @@
       }
     },
     {
-      "date": "2025-01-19",
+      "date": "2026-01-19",
       "scores": {
         "Cece": 4,
         "Enrico": 6,
@@ -50,7 +50,7 @@
       }
     },
     {
-      "date": "2025-01-20",
+      "date": "2026-01-20",
       "scores": {
         "Cece": 2,
         "Enrico": 2,
@@ -62,7 +62,7 @@
       }
     },
     {
-      "date": "2025-01-21",
+      "date": "2026-01-21",
       "scores": {
         "Cece": 2,
         "Enrico": 3,
@@ -74,7 +74,7 @@
       }
     },
     {
-      "date": "2025-01-22",
+      "date": "2026-01-22",
       "scores": {
         "Cece": 5,
         "Enrico": 4,
@@ -86,7 +86,7 @@
       }
     },
     {
-      "date": "2025-01-23",
+      "date": "2026-01-23",
       "scores": {
         "Cece": 2,
         "Enrico": 2,
@@ -98,7 +98,7 @@
       }
     },
     {
-      "date": "2025-01-26",
+      "date": "2026-01-26",
       "scores": {
         "Cece": 2,
         "Enrico": 2,
@@ -110,7 +110,7 @@
       }
     },
     {
-      "date": "2025-01-27",
+      "date": "2026-01-27",
       "scores": {
         "Cece": 4,
         "Enrico": 2,
@@ -122,7 +122,7 @@
       }
     },
     {
-      "date": "2025-01-28",
+      "date": "2026-01-28",
       "scores": {
         "Cece": 5,
         "Enrico": 3,
@@ -134,7 +134,7 @@
       }
     },
     {
-      "date": "2025-01-29",
+      "date": "2026-01-29",
       "scores": {
         "Cece": 4,
         "Enrico": 2,
@@ -146,7 +146,7 @@
       }
     },
     {
-      "date": "2025-01-30",
+      "date": "2026-01-30",
       "scores": {
         "Cece": 3,
         "Enrico": 2,
@@ -156,10 +156,23 @@
         "Michele": 2,
         "Paolin": null
       }
+    },
+    {
+      "date": "2026-02-02",
+      "scores": {
+        "Cece": 5,
+        "Enrico": 4,
+        "Carlo": 4,
+        "King": 5,
+        "Andre": 4,
+        "Michele": 2,
+        "Paolin": 10
+      }
     }
   ]
 
 }
+
 
 
 
