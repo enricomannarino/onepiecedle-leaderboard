@@ -180,10 +180,23 @@
         "Michele": 3,
         "Paolin": 2
       }
+    },
+    {
+      "date": "2026-02-04",
+      "scores": {
+        "Cece": 2,
+        "Enrico": 2,
+        "Carlo": 2,
+        "King": 4,
+        "Andre": 2,
+        "Michele": 2,
+        "Paolin": 9
+      }
     }
   ]
 
 }
+
 
 
 
