@@ -364,7 +364,7 @@
     {
       "date": "2026-02-25",
       "scores": {
-        "Cece": null,
+        "Cece": 2,
         "Enrico": 2,
         "Carlo": 2,
         "King": 2,
@@ -376,6 +376,7 @@
   ]
 
 }
+
 
 
 
