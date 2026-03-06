@@ -444,10 +444,23 @@
         "Michele": 4,
         "Paolin": 4
       }
+    },
+    {
+      "date": "2026-03-06",
+      "scores": {
+        "Cece": 3,
+        "Enrico": 3,
+        "Carlo": 5,
+        "King": 5,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": null
+      }
     }
   ]
 
 }
+
 
 
 
