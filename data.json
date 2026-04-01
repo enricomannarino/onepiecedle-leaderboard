@@ -612,6 +612,54 @@
         "Michele": null,
         "Paolin": null
       }
+    },
+    {
+      "date": "2026-03-26",
+      "scores": {
+        "Cece": null,
+        "Enrico": null,
+        "Carlo": null,
+        "King": null,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": null
+      }
+    },
+    {
+      "date": "2026-03-27",
+      "scores": {
+        "Cece": null,
+        "Enrico": null,
+        "Carlo": null,
+        "King": null,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": null
+      }
+    },
+    {
+      "date": "2026-03-30",
+      "scores": {
+        "Cece": null,
+        "Enrico": null,
+        "Carlo": null,
+        "King": null,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": null
+      }
+    },
+    {
+      "date": "2026-03-31",
+      "scores": {
+        "Cece": null,
+        "Enrico": 2,
+        "Carlo": 2,
+        "King": null,
+        "Andre": 2,
+        "Michele": 2,
+        "Paolin": 2
+      }
     }
   ]
 
