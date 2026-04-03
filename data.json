@@ -660,6 +660,30 @@
         "Michele": 2,
         "Paolin": 2
       }
+    },
+    {
+      "date": "2026-04-01",
+      "scores": {
+        "Cece": 4,
+        "Enrico": null,
+        "Carlo": null,
+        "King": null,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": null
+      },
+    {
+      "date": "2026-04-02",
+      "scores": {
+        "Cece": null,
+        "Enrico": null,
+        "Carlo": 4,
+        "King": null,
+        "Andre": null,
+        "Michele": null,
+        "Paolin": 3
+      }
+    }
     }
   ]
 
